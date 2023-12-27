@@ -3,6 +3,8 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
+import edu.najah.cap.delete.DatabaseType;
+import edu.najah.cap.delete.HardDelete;
 import edu.najah.cap.exceptions.BadRequestException;
 import edu.najah.cap.exceptions.NotFoundException;
 import edu.najah.cap.exceptions.SystemBusyException;
@@ -41,6 +43,29 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
+        UserType userType;
+        try {
+            userType = userService.getUser(userName).getUserType();
+        } catch (Exception e) {
+            System.err.println("Error while getting user type");
+            return;
+        }
+
+        System.out.print("Do you want to delete your account? (y/n): ");
+        String delete = scanner.nextLine();
+        if (delete.equals("y")) {
+
+        }
+        HardDelete hardDelete = new HardDelete.Builder()
+                .setPaymentService(paymentService)
+                .setPostService(postService)
+                .setUserService(userService)
+                .setUserActivityService(userActivityService)
+                .setUserType(userType)
+                .setDatabaseType(DatabaseType.SQLITE)
+                .build();
+
+        hardDelete.delete(getLoginUserName());
 
 
 
@@ -64,18 +89,18 @@ public class Application {
         System.out.println("Data Generation Completed");
     }
 
-		private static void generateActivity(int i) {
-				for (int j = 0; j < 100; j++) {
-						try {
-								if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
-										continue;
-								}
-						} catch (Exception e) {
-								System.err.println("Error while generating activity for user" + i);
-						}
-						userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
-				}
-		}
+    private static void generateActivity(int i) {
+        for (int j = 0; j < 100; j++) {
+            try {
+                if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
+                    continue;
+                }
+            } catch (Exception e) {
+                System.err.println("Error while generating activity for user" + i);
+            }
+            userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
+        }
+    }
 
     private static void generatePayment(int i) {
         for (int j = 0; j < 100; j++) {
