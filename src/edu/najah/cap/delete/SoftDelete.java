@@ -1,33 +1,31 @@
 package edu.najah.cap.delete;
 
 import edu.najah.cap.activity.IUserActivityService;
-import edu.najah.cap.delete.internal.database.Database;
-import edu.najah.cap.delete.internal.database.HardDeletedUsersDatabase;
-import edu.najah.cap.delete.internal.database.HardDeletedUsersModel;
+import edu.najah.cap.delete.internal.database.*;
 import edu.najah.cap.iam.IUserService;
+import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserType;
 import edu.najah.cap.payment.IPayment;
 import edu.najah.cap.posts.IPostService;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public class HardDelete extends Delete {
+public class SoftDelete extends Delete {
     private IUserActivityService userActivityService;
     private IUserService userService;
     private IPostService postService;
     private IPayment paymentService;
-    private Database<HardDeletedUsersModel> deletedUsersDatabase;
-    private String dbName = "hard_deleted_users.db";
+    private Database<SoftDeletedUsersModel> deletedUsersDatabase;
+    private String dbName = "deleted_users.db";
     private UserType userType;
 
-    private HardDelete(IUserActivityService userActivityService, IUserService userService, IPostService postService, IPayment paymentService, UserType userType, DatabaseType type) {
+    private SoftDelete(IUserActivityService userActivityService, IUserService userService, IPostService postService, IPayment paymentService, UserType userType, DatabaseType type) {
         this.userActivityService = userActivityService;
         this.userService = userService;
         this.postService = postService;
         this.paymentService = paymentService;
         this.userType = userType;
-        deletedUsersDatabase = HardDeletedUsersDatabase.getInstance(type, dbName);
+        deletedUsersDatabase = SoftDeletedUsersDatabase.getInstance(type, dbName);
     }
 
     public static class Builder {
@@ -69,27 +67,40 @@ public class HardDelete extends Delete {
         }
 
         public Delete build() {
-            return new HardDelete(userActivityService, userService, postService, paymentService, userType,type);
+            return new SoftDelete(userActivityService, userService, postService, paymentService, userType,type);
         }
     }
 
-
     @Override
     public synchronized void delete(String username) {
+        UserProfile user;
+        try {
+            user = userService.getUser(username);
+        } catch (Exception e) {
+            System.err.println("Error while getting user");
+            return;
+        }
+        String email = user.getEmail();
+        String password = user.getPassword();
+
         List<Runnable> runnables = getRunnables(username);
 
         runnables.parallelStream().forEach(Runnable::run);
 
+        System.out.println(username);
+        System.out.println(email);
+        System.out.println(password);
+
         try {
             deletedUsersDatabase.connect();
-            deletedUsersDatabase.insert(new HardDeletedUsersModel(username));
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            deletedUsersDatabase.insert(new SoftDeletedUsersModel(username, email, password));
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 deletedUsersDatabase.disconnect();
-            } catch (SQLException sqle) {
-                sqle.printStackTrace();
+            } catch (Exception e) {
+                System.err.println("Error while disconnecting from deleted users database");
             }
         }
     }

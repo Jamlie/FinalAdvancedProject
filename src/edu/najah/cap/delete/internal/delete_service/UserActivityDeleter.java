@@ -30,11 +30,11 @@ public class UserActivityDeleter implements IServiceDeleter {
 
         while (userActivityIterator.hasNext()) {
             try {
-//                try {
-//                    if (Instant.now().getEpochSecond() % 3 == 0) {
-//                        Thread.sleep(1);
-//                    }
-//                } catch (Exception e) {}
+                try {
+                    if (Instant.now().getEpochSecond() % 3 == 0) {
+                        Thread.sleep(1);
+                    }
+                } catch (Exception e) {}
                 var userActivity = userActivityIterator.next();
                 userActivityIterator.remove();
                 userActivityService.removeUserActivity(username, userActivity.getId());

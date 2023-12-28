@@ -30,12 +30,12 @@ public class PaymentDeleter implements IServiceDeleter {
 
         while (transactionIterator.hasNext()) {
             try {
-//                try {
-//                    if (Instant.now().getEpochSecond() % 3 == 0) {
-//                        Thread.sleep(1);
-//                    }
-//                } catch (Exception e) {
-//                }
+                try {
+                    if (Instant.now().getEpochSecond() % 3 == 0) {
+                        Thread.sleep(1);
+                    }
+                } catch (Exception e) {
+                }
                 var transaction = transactionIterator.next();
                 transactionIterator.remove();
                 paymentService.removeTransaction(username, transaction.getId());

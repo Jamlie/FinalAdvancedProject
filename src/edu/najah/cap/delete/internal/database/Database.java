@@ -3,7 +3,7 @@ package edu.najah.cap.delete.internal.database;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class Database<T> {
+public abstract class Database<T extends Model> {
     public abstract void connect() throws SQLException;
     protected abstract SQLException createTable() throws SQLException;
     public abstract void disconnect() throws SQLException;

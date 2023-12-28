@@ -7,23 +7,23 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class DeletedUsersDatabase extends Database<DeletedUsersModel> {
-    private static DeletedUsersDatabase instance;
+public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
+    private static SoftDeletedUsersDatabase instance;
     private Connection connection;
     private final String dbName;
     private boolean isConnected = false;
     private DatabaseType databaseType;
 
-    private DeletedUsersDatabase(DatabaseType databaseType, String dbName) {
+    private SoftDeletedUsersDatabase(DatabaseType databaseType, String dbName) {
         this.databaseType = databaseType;
         this.dbName = dbName;
     }
 
-    public static Database<DeletedUsersModel> getInstance(DatabaseType type, String dbName) {
+    public static Database<SoftDeletedUsersModel> getInstance(DatabaseType type, String dbName) {
         if (instance == null) {
-            synchronized (DeletedUsersDatabase.class) {
+            synchronized (HardDeletedUsersDatabase.class) {
                 if (instance == null) {
-                    instance = new DeletedUsersDatabase(type, dbName);
+                    instance = new SoftDeletedUsersDatabase(type, dbName);
                 }
             }
         }
@@ -54,7 +54,11 @@ public class DeletedUsersDatabase extends Database<DeletedUsersModel> {
         try {
             connection
                     .createStatement()
-                    .executeUpdate("CREATE TABLE IF NOT EXISTS deleted_users (username TEXT PRIMARY KEY)");
+                    .executeUpdate("CREATE TABLE IF NOT EXISTS soft_deleted_users (" +
+                            "username TEXT PRIMARY KEY," +
+                            "email TEXT UNIQUE NOT NULL," +
+                            "password TEXT NOT NULL" +
+                            ");");
             return null;
         } catch (SQLException e) {
             return e;
@@ -62,7 +66,7 @@ public class DeletedUsersDatabase extends Database<DeletedUsersModel> {
     }
 
     @Override
-    final public void disconnect() throws SQLException {
+    public void disconnect() throws SQLException {
         if (isConnected) {
             connection.close();
             isConnected = false;
@@ -70,14 +74,22 @@ public class DeletedUsersDatabase extends Database<DeletedUsersModel> {
     }
 
     @Override
-    public void insert(DeletedUsersModel model) throws SQLException {
+    public void insert(SoftDeletedUsersModel model) throws SQLException {
         boolean isUsernameValid = SQLValidation.isStringValid(model.username());
         if (!isUsernameValid) {
             throw new SQLException("Username is not valid");
         }
 
-        var statement = connection.prepareStatement("INSERT INTO deleted_users (username) VALUES (?)");
-        statement.setString(1, model.username());
-        statement.executeUpdate();
+        try {
+            connection
+                    .createStatement()
+                    .executeUpdate("INSERT INTO soft_deleted_users (username, email, password) VALUES (" +
+                            "'" + model.username() + "'," +
+                            "'" + model.email() + "'," +
+                            "'" + model.password() + "'" +
+                            ");");
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 }

@@ -7,6 +7,11 @@ public class SQLValidation {
         return str != null && !str.isEmpty() && !isSQLInjection(str);
     }
 
+    public static boolean isStringEmail(String email) {
+        return email != null && email.contains("@") && !isSQLInjection(email);
+    }
+
+
     private static boolean isSQLInjection(String str) {
         return str.contains(";") || str.contains("--") || str.contains("/*") || str.contains("*/") || str.contains("'");
     }

@@ -4,7 +4,9 @@ import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
 import edu.najah.cap.delete.DatabaseType;
+import edu.najah.cap.delete.Delete;
 import edu.najah.cap.delete.HardDelete;
+import edu.najah.cap.delete.SoftDelete;
 import edu.najah.cap.exceptions.BadRequestException;
 import edu.najah.cap.exceptions.NotFoundException;
 import edu.najah.cap.exceptions.SystemBusyException;
@@ -56,7 +58,7 @@ public class Application {
         if (delete.equals("y")) {
 
         }
-        HardDelete hardDelete = new HardDelete.Builder()
+        Delete hardDelete = new SoftDelete.Builder()
                 .setPaymentService(paymentService)
                 .setPostService(postService)
                 .setUserService(userService)

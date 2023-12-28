@@ -15,12 +15,11 @@ public class UserServiceDeleter implements IServiceDeleter {
     @Override
     public synchronized void delete(String username) {
         try {
-//            try {
-//                if (Instant.now().getEpochSecond() % 3 == 0) {
-//                    Thread.sleep(1);
-//                }
-//            } catch (Exception e) {
-//            }
+            try {
+                if (Instant.now().getEpochSecond() % 3 == 0) {
+                    Thread.sleep(1);
+                }
+            } catch (Exception e) {}
             userService.deleteUser(username);
         } catch (Exception e) {
             e.printStackTrace();
