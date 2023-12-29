@@ -1,9 +1,6 @@
 package edu.najah.cap.dataCollection;
 
 import edu.najah.cap.activity.UserActivity;
-import edu.najah.cap.exceptions.BadRequestException;
-import edu.najah.cap.exceptions.NotFoundException;
-import edu.najah.cap.exceptions.SystemBusyException;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;

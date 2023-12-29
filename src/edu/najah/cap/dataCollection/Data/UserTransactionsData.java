@@ -16,10 +16,16 @@ public class UserTransactionsData {
     }
 
     public List<Transaction> getTransactions(String userName) throws SystemBusyException, BadRequestException, NotFoundException {
-       return paymentService.getTransactions(userName);
+       try {
+           return paymentService.getTransactions(userName);
+       }catch (SystemBusyException | BadRequestException | NotFoundException e) {
+           throw e;
+       } catch (Exception e) {
+           throw new RuntimeException("Unexpected error occurred", e);
+       }
     }
 
-    public double getBalance(String userName) {
-        return paymentService.getBalance(userName);
+    public double getBalance(String userName){
+       return paymentService.getBalance(userName);
     }
 }

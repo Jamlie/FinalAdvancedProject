@@ -1,15 +1,10 @@
 package edu.najah.cap.dataCollection;
 
-import edu.najah.cap.activity.UserActivity;
+
 import edu.najah.cap.dataCollection.Data.UserActivitiesData;
 import edu.najah.cap.dataCollection.Data.UserPostsData;
 import edu.najah.cap.dataCollection.Data.UserProfileData;
 import edu.najah.cap.dataCollection.Data.UserTransactionsData;
-import edu.najah.cap.iam.UserProfile;
-import edu.najah.cap.payment.Transaction;
-import edu.najah.cap.posts.Post;
-
-import java.util.List;
 
 public class UsersData {
     private final UserProfileData userProfileData;

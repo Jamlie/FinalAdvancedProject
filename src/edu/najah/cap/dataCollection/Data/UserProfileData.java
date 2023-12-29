@@ -13,6 +13,13 @@ public class UserProfileData {
         this.userService = userService;
     }
     public UserProfile getUserProfile(String userName) throws SystemBusyException, NotFoundException, BadRequestException {
-        return userService.getUser(userName);
+        try{
+            return userService.getUser(userName);
+        } catch (SystemBusyException | BadRequestException | NotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error occurred", e);
+        }
+
     }
 }

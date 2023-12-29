@@ -5,8 +5,6 @@ import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.exceptions.BadRequestException;
 import edu.najah.cap.exceptions.NotFoundException;
 import edu.najah.cap.exceptions.SystemBusyException;
-import edu.najah.cap.exceptions.Util;
-import edu.najah.cap.iam.UserType;
 
 import java.util.List;
 
@@ -19,6 +17,12 @@ public class UserActivitiesData {
     }
 
     public  List<UserActivity> getUserActivities(String userId) throws SystemBusyException, BadRequestException, NotFoundException {
-        return userActivityService.getUserActivity(userId);
+        try {
+            return userActivityService.getUserActivity(userId);
+        } catch (SystemBusyException | BadRequestException | NotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error occurred", e);
+        }
     }
 }
