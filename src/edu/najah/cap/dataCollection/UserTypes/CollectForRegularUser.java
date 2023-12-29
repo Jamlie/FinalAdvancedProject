@@ -1,16 +1,14 @@
-package edu.najah.cap.dataCollection;
+package edu.najah.cap.dataCollection.UserTypes;
 
 import edu.najah.cap.activity.UserActivity;
-import edu.najah.cap.exceptions.BadRequestException;
-import edu.najah.cap.exceptions.NotFoundException;
-import edu.najah.cap.exceptions.SystemBusyException;
+import edu.najah.cap.dataCollection.CollectData;
+import edu.najah.cap.dataCollection.UserData;
 import edu.najah.cap.iam.UserProfile;
-import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;
 
 import java.util.List;
 
-public class CollectedForRegularUser implements CollectedData {
+public class CollectForRegularUser implements CollectData {
 
     private final UserData userData;
     private final UserProfile userProfile;
@@ -27,7 +25,7 @@ public class CollectedForRegularUser implements CollectedData {
         return userActivities;
     }
 
-    public CollectedForRegularUser(UserData userData){
+    public CollectForRegularUser(UserData userData){
         this.userData = userData;
         this.userProfile = userData.getUserProfile();
         this.posts = userData.getPosts();

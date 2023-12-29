@@ -1,5 +1,5 @@
 package edu.najah.cap.dataCollection;
 
-public interface CollectedData {
+public interface CollectData {
     UserData collect();
 }

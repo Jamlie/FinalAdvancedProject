@@ -1,13 +1,15 @@
-package edu.najah.cap.dataCollection;
+package edu.najah.cap.dataCollection.UserTypes;
 
 import edu.najah.cap.activity.UserActivity;
+import edu.najah.cap.dataCollection.CollectData;
+import edu.najah.cap.dataCollection.UserData;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;
 
 import java.util.List;
 
-public class CollectedForPremiumUser implements CollectedData {
+public class CollectForPremiumUser implements CollectData {
 
     private final UserData userData;
     private final UserProfile userProfile;
@@ -16,7 +18,7 @@ public class CollectedForPremiumUser implements CollectedData {
     private final List<Transaction> transactions;
     private final double balance;
 
-    public CollectedForPremiumUser(UserData userData){
+    public CollectForPremiumUser(UserData userData){
         this.userData = userData;
         this.userProfile = userData.getUserProfile();
         this.posts = userData.getPosts();

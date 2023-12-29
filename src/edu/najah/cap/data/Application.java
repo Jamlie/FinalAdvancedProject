@@ -3,9 +3,13 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
-import edu.najah.cap.exceptions.BadRequestException;
-import edu.najah.cap.exceptions.NotFoundException;
-import edu.najah.cap.exceptions.SystemBusyException;
+import edu.najah.cap.dataCollection.CollectData;
+import edu.najah.cap.dataCollection.Data.UserActivitiesData;
+import edu.najah.cap.dataCollection.Data.UserPostsData;
+import edu.najah.cap.dataCollection.Data.UserProfileData;
+import edu.najah.cap.dataCollection.Data.UserTransactionsData;
+import edu.najah.cap.dataCollection.CollectDataForFactory;
+import edu.najah.cap.dataCollection.UsersData;
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -41,10 +45,26 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
+        UserActivitiesData userActivitiesData =new UserActivitiesData(userActivityService);
+        UserPostsData userPostsData = new UserPostsData(postService);
+        UserTransactionsData userTransactionsData = new UserTransactionsData(paymentService);
+        UserProfileData userProfileData = new UserProfileData(userService);
+
+        CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
+                .setUserName(getLoginUserName())
+                .setUserProfileData(userProfileData)
+                .setUserPostsData(userPostsData)
+                .setUserActivitiesData(userActivitiesData)
+                .setUserTransactionsData(userTransactionsData)
+                .build());
+
+        CollectData collectData;
+        collectData = collectDataForFactory.getCollectionDataFor();
 
 
 
-
+        System.out.println(collectData);
+        System.out.println(collectData.collect().getUserProfile().getUserName());
 
 
 

@@ -1,12 +1,14 @@
-package edu.najah.cap.dataCollection;
+package edu.najah.cap.dataCollection.UserTypes;
 
+import edu.najah.cap.dataCollection.CollectData;
+import edu.najah.cap.dataCollection.UserData;
 import edu.najah.cap.iam.UserProfile;
 
-public class CollectedForNewUser implements CollectedData {
+public class CollectForNewUser implements CollectData {
 
     private final UserData userData;
     private final UserProfile userProfile;
-    public CollectedForNewUser(UserData userData){
+    public CollectForNewUser(UserData userData){
         this.userProfile = userData.getUserProfile();
         this.userData = userData;
     }
