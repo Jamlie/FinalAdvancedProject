@@ -22,8 +22,7 @@ public class PaymentDeleter implements IServiceDeleter {
         try {
             transactions = paymentService.getTransactions(username);
         } catch (Exception e) {
-            e.printStackTrace();
-            return;
+            throw new RuntimeException(e);
         }
 
         var transactionIterator = transactions.iterator();
@@ -34,8 +33,7 @@ public class PaymentDeleter implements IServiceDeleter {
                     if (Instant.now().getEpochSecond() % 3 == 0) {
                         Thread.sleep(1);
                     }
-                } catch (Exception e) {
-                }
+                } catch (Exception e) {}
                 var transaction = transactionIterator.next();
                 transactionIterator.remove();
                 paymentService.removeTransaction(username, transaction.getId());

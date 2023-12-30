@@ -29,12 +29,12 @@ public class PostsDeleter implements IServiceDeleter {
         var postIterator = posts.iterator();
 
         while (postIterator.hasNext()) {
-            try {
+            if (Instant.now().getEpochSecond() % 3 == 0) {
                 try {
-                    if (Instant.now().getEpochSecond() % 3 == 0) {
-                        Thread.sleep(1);
-                    }
+                    Thread.sleep(1);
                 } catch (Exception e) {}
+            }
+            try {
                 var post = postIterator.next();
                 postIterator.remove();
                 postService.deletePost(username, post.getId());

@@ -45,29 +45,20 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
-        UserType userType;
-        try {
-            userType = userService.getUser(userName).getUserType();
-        } catch (Exception e) {
-            System.err.println("Error while getting user type");
-            return;
-        }
-
         System.out.print("Do you want to delete your account? (y/n): ");
         String delete = scanner.nextLine();
         if (delete.equals("y")) {
 
         }
-        Delete hardDelete = new SoftDelete.Builder()
+        Delete softDelete = new SoftDelete.Builder()
                 .setPaymentService(paymentService)
                 .setPostService(postService)
                 .setUserService(userService)
                 .setUserActivityService(userActivityService)
-                .setUserType(userType)
                 .setDatabaseType(DatabaseType.SQLITE)
                 .build();
 
-        hardDelete.delete(getLoginUserName());
+        softDelete.delete(getLoginUserName());
 
 
 

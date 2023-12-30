@@ -5,7 +5,6 @@ import edu.najah.cap.delete.internal.database.Database;
 import edu.najah.cap.delete.internal.database.HardDeletedUsersDatabase;
 import edu.najah.cap.delete.internal.database.HardDeletedUsersModel;
 import edu.najah.cap.iam.IUserService;
-import edu.najah.cap.iam.UserType;
 import edu.najah.cap.payment.IPayment;
 import edu.najah.cap.posts.IPostService;
 
@@ -18,15 +17,13 @@ public class HardDelete extends Delete {
     private IPostService postService;
     private IPayment paymentService;
     private Database<HardDeletedUsersModel> deletedUsersDatabase;
-    private String dbName = "hard_deleted_users.db";
-    private UserType userType;
+    private String dbName = "deleted_users.db";
 
-    private HardDelete(IUserActivityService userActivityService, IUserService userService, IPostService postService, IPayment paymentService, UserType userType, DatabaseType type) {
+    private HardDelete(IUserActivityService userActivityService, IUserService userService, IPostService postService, IPayment paymentService, DatabaseType type) {
         this.userActivityService = userActivityService;
         this.userService = userService;
         this.postService = postService;
         this.paymentService = paymentService;
-        this.userType = userType;
         deletedUsersDatabase = HardDeletedUsersDatabase.getInstance(type, dbName);
     }
 
@@ -35,7 +32,6 @@ public class HardDelete extends Delete {
         private IUserService userService;
         private IPostService postService;
         private IPayment paymentService;
-        private UserType userType;
         private DatabaseType type;
 
         public Builder setUserActivityService(IUserActivityService userActivityService) {
@@ -63,38 +59,33 @@ public class HardDelete extends Delete {
             return this;
         }
 
-        public Builder setUserType(UserType userType) {
-            this.userType = userType;
-            return this;
-        }
-
         public Delete build() {
-            return new HardDelete(userActivityService, userService, postService, paymentService, userType,type);
+            return new HardDelete(userActivityService, userService, postService, paymentService, type);
         }
     }
 
 
     @Override
     public synchronized void delete(String username) {
-        List<Runnable> runnables = getRunnables(username);
+        List<Runnable> runnable = getRunnable(username);
 
-        runnables.parallelStream().forEach(Runnable::run);
+        runnable.parallelStream().forEach(Runnable::run);
 
         try {
             deletedUsersDatabase.connect();
             deletedUsersDatabase.insert(new HardDeletedUsersModel(username));
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            throw new RuntimeException(sqle);
         } finally {
             try {
                 deletedUsersDatabase.disconnect();
             } catch (SQLException sqle) {
-                sqle.printStackTrace();
+                throw new RuntimeException(sqle);
             }
         }
     }
 
-    private List<Runnable> getRunnables(String username) {
-        return getRunnables(username, postService, userActivityService, userService, this.userType, paymentService);
+    private List<Runnable> getRunnable(String username) {
+        return getRunnableAndCheck(username, postService, userActivityService, userService, paymentService);
     }
 }
