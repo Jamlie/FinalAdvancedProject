@@ -8,10 +8,10 @@ import edu.najah.cap.posts.Post;
 import java.util.List;
 
 public class UserPostsData {
-    private final IPostService postService;
+    private static IPostService postService;
 
     public UserPostsData( IPostService postService) {
-        this.postService = postService;
+        UserPostsData.postService = postService;
     }
 
     public List<Post> getPosts(String userName) throws SystemBusyException, BadRequestException, NotFoundException {

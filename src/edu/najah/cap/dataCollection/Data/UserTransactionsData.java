@@ -9,10 +9,10 @@ import edu.najah.cap.payment.Transaction;
 import java.util.List;
 
 public class UserTransactionsData {
-    private final  IPayment paymentService;
+    private static IPayment paymentService;
 
     public UserTransactionsData(IPayment paymentService) {
-        this.paymentService = paymentService;
+        UserTransactionsData.paymentService = paymentService;
     }
 
     public List<Transaction> getTransactions(String userName) throws SystemBusyException, BadRequestException, NotFoundException {

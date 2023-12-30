@@ -7,10 +7,10 @@ import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 
 public class UserProfileData {
-    private final IUserService userService;
+    private static IUserService userService;
 
     public UserProfileData(IUserService userService) {
-        this.userService = userService;
+        UserProfileData.userService = userService;
     }
     public UserProfile getUserProfile(String userName) throws SystemBusyException, NotFoundException, BadRequestException {
         try{
@@ -20,6 +20,5 @@ public class UserProfileData {
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error occurred", e);
         }
-
     }
 }

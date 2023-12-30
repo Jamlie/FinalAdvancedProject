@@ -1,6 +1,5 @@
 package edu.najah.cap.dataCollection;
 
-
 import edu.najah.cap.dataCollection.UserTypes.CollectForNewUser;
 import edu.najah.cap.dataCollection.UserTypes.CollectForPremiumUser;
 import edu.najah.cap.dataCollection.UserTypes.CollectForRegularUser;

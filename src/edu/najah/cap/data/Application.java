@@ -61,12 +61,8 @@ public class Application {
         CollectData collectData;
         collectData = collectDataForFactory.getCollectionDataFor();
 
-
-
         System.out.println(collectData);
         System.out.println(collectData.collect().getUserProfile().getUserName());
-
-
 
         //TODO Your application ends here. Do not Change the existing code
         Instant end = Instant.now();

@@ -9,11 +9,10 @@ import edu.najah.cap.exceptions.SystemBusyException;
 import java.util.List;
 
 public class UserActivitiesData {
-    private final IUserActivityService userActivityService;
-
+    private static IUserActivityService userActivityService;
 
     public UserActivitiesData(IUserActivityService userActivityService) {
-        this.userActivityService = userActivityService;
+        UserActivitiesData.userActivityService = userActivityService;
     }
 
     public  List<UserActivity> getUserActivities(String userId) throws SystemBusyException, BadRequestException, NotFoundException {
