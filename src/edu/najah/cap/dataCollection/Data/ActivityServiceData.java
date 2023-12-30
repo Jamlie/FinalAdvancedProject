@@ -10,13 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class UserActivitiesData {
+public class ActivityServiceData {
 
-    private static final Logger userActivitiesDataLogger = Logger.getLogger(UserActivitiesData.class.getName());
+    private static final Logger userActivitiesDataLogger = Logger.getLogger(ActivityServiceData.class.getName());
     private static IUserActivityService userActivityService;
 
-    public UserActivitiesData(IUserActivityService userActivityService) {
-        UserActivitiesData.userActivityService = userActivityService;
+    public ActivityServiceData(IUserActivityService userActivityService) {
+        ActivityServiceData.userActivityService = userActivityService;
     }
 
     public  List<UserActivity> getUserActivities(String userId) throws SystemBusyException, BadRequestException, NotFoundException {

@@ -1,57 +1,57 @@
 package edu.najah.cap.dataCollection;
 
 
-import edu.najah.cap.dataCollection.Data.UserActivitiesData;
-import edu.najah.cap.dataCollection.Data.UserPostsData;
-import edu.najah.cap.dataCollection.Data.UserProfileData;
-import edu.najah.cap.dataCollection.Data.UserTransactionsData;
+import edu.najah.cap.dataCollection.Data.ActivityServiceData;
+import edu.najah.cap.dataCollection.Data.PostServiceData;
+import edu.najah.cap.dataCollection.Data.ProfileServiceData;
+import edu.najah.cap.dataCollection.Data.TransactionsServiceData;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class UsersData {
     private static final Logger userDataLogger = Logger.getLogger(UsersData.class.getName() + "Logger");
-    private final UserProfileData userProfileData;
-    private final UserPostsData userPostsData ;
-    private final UserActivitiesData userActivitiesData ;
-    private final UserTransactionsData userTransactionsData ;
+    private final ProfileServiceData profileServiceData;
+    private final PostServiceData postServiceData;
+    private final ActivityServiceData activityServiceData;
+    private final TransactionsServiceData transactionsServiceData;
     private final String userName ;
 
-    public UsersData(String userName,UserProfileData userProfileData, UserPostsData userPostsData, UserActivitiesData userActivitiesData, UserTransactionsData userTransactionsData) {
-        this.userProfileData = userProfileData;
-        this.userPostsData = userPostsData;
-        this.userActivitiesData = userActivitiesData;
-        this.userTransactionsData = userTransactionsData;
+    public UsersData(String userName, ProfileServiceData profileServiceData, PostServiceData postServiceData, ActivityServiceData activityServiceData, TransactionsServiceData transactionsServiceData) {
+        this.profileServiceData = profileServiceData;
+        this.postServiceData = postServiceData;
+        this.activityServiceData = activityServiceData;
+        this.transactionsServiceData = transactionsServiceData;
         this.userName = userName;
         userDataLogger.log(Level.INFO, "Create UsersData object", userName);
     }
 
 
     public static class Builder {
-        private UserProfileData userProfileData;
-        private UserPostsData userPostsData ;
-        private UserActivitiesData userActivitiesData ;
-        private UserTransactionsData userTransactionsData ;
+        private ProfileServiceData profileServiceData;
+        private PostServiceData postServiceData;
+        private ActivityServiceData activityServiceData;
+        private TransactionsServiceData transactionsServiceData;
         private String userName ;
 
-        public Builder setUsersProfileData(UserProfileData userProfileData) {
-            this.userProfileData = userProfileData;
+        public Builder setUsersProfileData(ProfileServiceData profileServiceData) {
+            this.profileServiceData = profileServiceData;
             return this;
 
         }
 
-        public Builder setUsersPostsData(UserPostsData userPostsData) {
-            this.userPostsData = userPostsData;
+        public Builder setUsersPostsData(PostServiceData postServiceData) {
+            this.postServiceData = postServiceData;
             return this;
         }
 
-        public Builder setUsersActivitiesData(UserActivitiesData userActivitiesData) {
-            this.userActivitiesData = userActivitiesData;
+        public Builder setUsersActivitiesData(ActivityServiceData activityServiceData) {
+            this.activityServiceData = activityServiceData;
             return this;
         }
 
-        public Builder setUsersTransactionsData(UserTransactionsData userTransactionsData) {
-            this.userTransactionsData = userTransactionsData;
+        public Builder setUsersTransactionsData(TransactionsServiceData transactionsServiceData) {
+            this.transactionsServiceData = transactionsServiceData;
             return this;
         }
 
@@ -61,28 +61,28 @@ public class UsersData {
         }
 
         public UsersData build() {
-            return new UsersData(userName,userProfileData,userPostsData,userActivitiesData,userTransactionsData);
+            return new UsersData(userName, profileServiceData, postServiceData, activityServiceData, transactionsServiceData);
         }
     }
 
-    public UserProfileData getUsersProfileData() {
+    public ProfileServiceData getUsersProfileData() {
         userDataLogger.log(Level.INFO, "Getting users profile data", userName);
-        return userProfileData;
+        return profileServiceData;
     }
 
-    public UserPostsData getUsersPostsData() {
+    public PostServiceData getUsersPostsData() {
         userDataLogger.log(Level.INFO, "Getting users posts data", userName);
-        return userPostsData;
+        return postServiceData;
     }
 
-    public UserActivitiesData getUsersActivitiesData() {
+    public ActivityServiceData getUsersActivitiesData() {
         userDataLogger.log(Level.INFO, "Getting users activities", userName);
-        return userActivitiesData;
+        return activityServiceData;
     }
 
-    public UserTransactionsData getUsersTransactionsData() {
+    public TransactionsServiceData getUsersTransactionsData() {
         userDataLogger.log(Level.INFO, "Getting users transactions", userName);
-        return userTransactionsData;
+        return transactionsServiceData;
     }
 
     public String getUserName() {

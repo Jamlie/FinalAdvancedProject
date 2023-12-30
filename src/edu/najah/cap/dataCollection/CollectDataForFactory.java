@@ -26,20 +26,20 @@ public class CollectDataForFactory {
                     case REGULAR_USER -> {
                         CollectDataForRegularUser collectDataForRegularUser = new CollectDataForRegularUser(new UserData.Builder()
                                 .setUserProfile(usersData.getUsersProfileData().getUserProfile(userName))
-                                .setPosts(usersData.getUsersPostsData().getPosts(userName))
+                                .setPosts(usersData.getUsersPostsData().getUserPosts(userName))
                                 .setUserActivities(usersData.getUsersActivitiesData().getUserActivities(userName))
                                 .build());
 
-                        collectDataForFactoryLogger.log(Level.INFO, "Create CollectDataForRegularUser instance for user: {0}", userName);
+                        collectDataForFactoryLogger.log(Level.INFO, "Creat CollectDataForRegularUser instance for user: {0}", userName);
                         yield collectDataForRegularUser;
                     }
 
                     case PREMIUM_USER -> {
                         CollectDataForPremiumUser collectDataForPremiumUser = new CollectDataForPremiumUser(new UserData.Builder()
                                 .setUserProfile(usersData.getUsersProfileData().getUserProfile(userName))
-                                .setPosts(usersData.getUsersPostsData().getPosts(userName))
+                                .setPosts(usersData.getUsersPostsData().getUserPosts(userName))
                                 .setUserActivities(usersData.getUsersActivitiesData().getUserActivities(userName))
-                                .setTransactions(usersData.getUsersTransactionsData().getTransactions(userName))
+                                .setTransactions(usersData.getUsersTransactionsData().getUserTransactions(userName))
                                 .setBalance(usersData.getUsersTransactionsData().getBalance(userName))
                                 .build());
 

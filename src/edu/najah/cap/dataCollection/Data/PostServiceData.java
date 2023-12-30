@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserPostsData {
-    private static final Logger userPostsDataLogger = Logger.getLogger(UserPostsData.class.getName());
+public class PostServiceData {
+    private static final Logger userPostsDataLogger = Logger.getLogger(PostServiceData.class.getName());
     private static IPostService postService;
 
-    public UserPostsData( IPostService postService) {
-        UserPostsData.postService = postService;
+    public PostServiceData(IPostService postService) {
+        PostServiceData.postService = postService;
     }
 
-    public List<Post> getPosts(String userName) throws SystemBusyException, BadRequestException, NotFoundException {
+    public List<Post> getUserPosts(String userName) throws SystemBusyException, BadRequestException, NotFoundException {
         try {
             userPostsDataLogger.log(Level.INFO, "Fetching posts for userName: {0}", userName);
             return postService.getPosts(userName);

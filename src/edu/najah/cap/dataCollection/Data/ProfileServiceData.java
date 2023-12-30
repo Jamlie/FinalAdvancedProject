@@ -8,12 +8,12 @@ import edu.najah.cap.iam.UserProfile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserProfileData {
-    private static final Logger userProfileDataLogger = Logger.getLogger(UserProfileData.class.getName());
+public class ProfileServiceData {
+    private static final Logger userProfileDataLogger = Logger.getLogger(ProfileServiceData.class.getName());
     private static IUserService userService;
 
-    public UserProfileData(IUserService userService) {
-        UserProfileData.userService = userService;
+    public ProfileServiceData(IUserService userService) {
+        ProfileServiceData.userService = userService;
     }
     public UserProfile getUserProfile(String userName) throws SystemBusyException, NotFoundException, BadRequestException {
         try{
