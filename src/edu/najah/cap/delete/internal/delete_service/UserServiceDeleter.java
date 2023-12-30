@@ -6,7 +6,7 @@ import edu.najah.cap.iam.UserProfile;
 import java.time.Instant;
 
 public class UserServiceDeleter implements IServiceDeleter {
-    private IUserService userService;
+    private final IUserService userService;
 
     public UserServiceDeleter(IUserService userService) {
         this.userService = userService;
@@ -17,7 +17,7 @@ public class UserServiceDeleter implements IServiceDeleter {
         try {
             userService.deleteUser(username);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

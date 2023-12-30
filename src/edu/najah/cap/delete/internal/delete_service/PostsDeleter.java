@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.List;
 
 public class PostsDeleter implements IServiceDeleter {
-    private IPostService postService;
+    private final IPostService postService;
 
     public PostsDeleter(IPostService postService) {
         this.postService = postService;
@@ -22,8 +22,7 @@ public class PostsDeleter implements IServiceDeleter {
         try {
             posts = postService.getPosts(username);
         } catch (Exception e) {
-            e.printStackTrace();
-            return;
+            throw new RuntimeException(e);
         }
 
         var postIterator = posts.iterator();

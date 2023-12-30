@@ -13,7 +13,7 @@ public class HardDeletedUsersDatabase extends Database<HardDeletedUsersModel> {
     private Connection connection;
     private final String dbName;
     private boolean isConnected = false;
-    private DatabaseType databaseType;
+    private final DatabaseType databaseType;
 
     private HardDeletedUsersDatabase(DatabaseType databaseType, String dbName) {
         this.databaseType = databaseType;

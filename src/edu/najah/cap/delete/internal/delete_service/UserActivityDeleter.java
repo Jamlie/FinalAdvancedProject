@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.List;
 
 public class UserActivityDeleter implements IServiceDeleter {
-    private IUserActivityService userActivityService;
+    private final IUserActivityService userActivityService;
 
     public UserActivityDeleter(IUserActivityService userActivityService) {
         this.userActivityService = userActivityService;
@@ -22,8 +22,7 @@ public class UserActivityDeleter implements IServiceDeleter {
         try {
             userActivities = userActivityService.getUserActivity(username);
         } catch (Exception e) {
-            e.printStackTrace();
-            return;
+            throw new RuntimeException(e);
         }
 
         var userActivityIterator = userActivities.iterator();

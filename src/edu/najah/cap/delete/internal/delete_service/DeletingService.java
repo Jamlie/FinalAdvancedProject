@@ -1,7 +1,7 @@
 package edu.najah.cap.delete.internal.delete_service;
 
 public class DeletingService<T extends IServiceDeleter> {
-    T service;
+    private final T service;
     public DeletingService(T service) {
         this.service = service;
     }

@@ -12,7 +12,7 @@ public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
     private Connection connection;
     private final String dbName;
     private boolean isConnected = false;
-    private DatabaseType databaseType;
+    private final DatabaseType databaseType;
 
     private SoftDeletedUsersDatabase(DatabaseType databaseType, String dbName) {
         this.databaseType = databaseType;

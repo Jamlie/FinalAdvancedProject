@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.List;
 
 public class PaymentDeleter implements IServiceDeleter {
-    private IPayment paymentService;
+    private final IPayment paymentService;
 
     public PaymentDeleter(IPayment paymentService) {
         this.paymentService = paymentService;
