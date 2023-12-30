@@ -4,10 +4,13 @@ import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;
-
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class UserData {
+    private static final Logger userDataLogger = Logger.getLogger(UserData.class.getName() + "Logger");
     private final  UserProfile userProfile;
     private final  List<Post> posts;
     private final  List<UserActivity> userActivities;
@@ -21,6 +24,8 @@ public class UserData {
         this.userActivities = userActivities ;
         this.transactions = transactions;
         this.balance = balance;
+
+        userDataLogger.log(Level.INFO, "Create UserData object", userProfile.getUserName());
     }
 
     public static class Builder {
@@ -64,22 +69,27 @@ public class UserData {
 
 
     public UserProfile getUserProfile() {
+        userDataLogger.log(Level.INFO, "Getting user profile for user: {0}", userProfile.getUserName());
         return userProfile;
     }
 
     public List<Post> getPosts() {
+        userDataLogger.log(Level.INFO, "Getting posts for user: {0}", userProfile.getUserName());
         return posts;
     }
 
     public List<UserActivity> getUserActivities() {
+        userDataLogger.log(Level.INFO, "Getting user activities for user: {0}", userProfile.getUserName());
         return userActivities;
     }
 
     public List<Transaction> getTransactions() {
+        userDataLogger.log(Level.INFO, "Getting transactions for user: {0}", userProfile.getUserName());
         return transactions;
     }
 
     public double getBalance() {
+        userDataLogger.log(Level.INFO, "Getting balance for user: {0}", userProfile.getUserName());
         return balance;
     }
 }

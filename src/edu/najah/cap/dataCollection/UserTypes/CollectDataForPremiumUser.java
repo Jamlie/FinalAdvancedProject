@@ -6,11 +6,14 @@ import edu.najah.cap.dataCollection.UserData;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;
-
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class CollectForPremiumUser implements CollectData {
 
+
+public class CollectDataForPremiumUser implements CollectData {
+    private static final Logger collectDataForPremiumUserLogger = Logger.getLogger(CollectDataForPremiumUser.class.getName());
     private final UserData userData;
     private final UserProfile userProfile;
     private final List<Post> posts;
@@ -18,7 +21,7 @@ public class CollectForPremiumUser implements CollectData {
     private final List<Transaction> transactions;
     private final double balance;
 
-    public CollectForPremiumUser(UserData userData){
+    public CollectDataForPremiumUser(UserData userData){
         this.userData = userData;
         this.userProfile = userData.getUserProfile();
         this.posts = userData.getPosts();
@@ -45,5 +48,13 @@ public class CollectForPremiumUser implements CollectData {
 
 
     @Override
-    public UserData collect() { return userData; }
+    public UserData collect() {
+        try {
+            collectDataForPremiumUserLogger.log(Level.INFO, "Collecting data for premium user: {0}", userProfile.getUserName());
+            return userData;
+        } catch (Exception e) {
+            collectDataForPremiumUserLogger.log(Level.SEVERE, "Unexpected error occurred while collecting data for premium user: {0}", new Object[]{userProfile.getUserName(), e});
+            throw new RuntimeException("Unexpected error occurred", e);
+        }
+    }
 }

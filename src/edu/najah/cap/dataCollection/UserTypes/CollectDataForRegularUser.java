@@ -5,11 +5,12 @@ import edu.najah.cap.dataCollection.CollectData;
 import edu.najah.cap.dataCollection.UserData;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.posts.Post;
-
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class CollectForRegularUser implements CollectData {
-
+public class CollectDataForRegularUser implements CollectData {
+    private static final Logger collectDataForRegularUserLogger = Logger.getLogger(CollectDataForRegularUser.class.getName());
     private final UserData userData;
     private final UserProfile userProfile;
     private final List<Post> posts;
@@ -25,12 +26,20 @@ public class CollectForRegularUser implements CollectData {
         return userActivities;
     }
 
-    public CollectForRegularUser(UserData userData){
+    public CollectDataForRegularUser(UserData userData){
         this.userData = userData;
         this.userProfile = userData.getUserProfile();
         this.posts = userData.getPosts();
         this.userActivities = userData.getUserActivities();
     }
     @Override
-    public UserData collect() { return userData; }
+    public UserData collect() {
+        try {
+            collectDataForRegularUserLogger.log(Level.INFO, "Collecting data for regular user: {0}", userProfile.getUserName());
+            return userData;
+        } catch (Exception e) {
+            collectDataForRegularUserLogger.log(Level.SEVERE, "Unexpected error occurred while collecting data for regular user: {0}", new Object[]{userProfile.getUserName(), e});
+            throw new RuntimeException("Unexpected error occurred", e);
+        }
+    }
 }

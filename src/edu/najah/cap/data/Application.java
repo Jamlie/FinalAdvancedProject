@@ -52,10 +52,10 @@ public class Application {
 
         CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
                 .setUserName(getLoginUserName())
-                .setUserProfileData(userProfileData)
-                .setUserPostsData(userPostsData)
-                .setUserActivitiesData(userActivitiesData)
-                .setUserTransactionsData(userTransactionsData)
+                .setUsersProfileData(userProfileData)
+                .setUsersPostsData(userPostsData)
+                .setUsersActivitiesData(userActivitiesData)
+                .setUsersTransactionsData(userTransactionsData)
                 .build());
 
         CollectData collectData;

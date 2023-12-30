@@ -5,8 +5,12 @@ import edu.najah.cap.dataCollection.Data.UserActivitiesData;
 import edu.najah.cap.dataCollection.Data.UserPostsData;
 import edu.najah.cap.dataCollection.Data.UserProfileData;
 import edu.najah.cap.dataCollection.Data.UserTransactionsData;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class UsersData {
+    private static final Logger userDataLogger = Logger.getLogger(UsersData.class.getName() + "Logger");
     private final UserProfileData userProfileData;
     private final UserPostsData userPostsData ;
     private final UserActivitiesData userActivitiesData ;
@@ -19,6 +23,7 @@ public class UsersData {
         this.userActivitiesData = userActivitiesData;
         this.userTransactionsData = userTransactionsData;
         this.userName = userName;
+        userDataLogger.log(Level.INFO, "Create UsersData object", userName);
     }
 
 
@@ -29,23 +34,23 @@ public class UsersData {
         private UserTransactionsData userTransactionsData ;
         private String userName ;
 
-        public Builder setUserProfileData(UserProfileData userProfileData) {
+        public Builder setUsersProfileData(UserProfileData userProfileData) {
             this.userProfileData = userProfileData;
             return this;
 
         }
 
-        public Builder setUserPostsData(UserPostsData userPostsData) {
+        public Builder setUsersPostsData(UserPostsData userPostsData) {
             this.userPostsData = userPostsData;
             return this;
         }
 
-        public Builder setUserActivitiesData(UserActivitiesData userActivitiesData) {
+        public Builder setUsersActivitiesData(UserActivitiesData userActivitiesData) {
             this.userActivitiesData = userActivitiesData;
             return this;
         }
 
-        public Builder setUserTransactionsData(UserTransactionsData userTransactionsData) {
+        public Builder setUsersTransactionsData(UserTransactionsData userTransactionsData) {
             this.userTransactionsData = userTransactionsData;
             return this;
         }
@@ -60,19 +65,23 @@ public class UsersData {
         }
     }
 
-    public UserProfileData getUserProfileData() {
+    public UserProfileData getUsersProfileData() {
+        userDataLogger.log(Level.INFO, "Getting users profile data", userName);
         return userProfileData;
     }
 
-    public UserPostsData getUserPostsData() {
+    public UserPostsData getUsersPostsData() {
+        userDataLogger.log(Level.INFO, "Getting users posts data", userName);
         return userPostsData;
     }
 
-    public UserActivitiesData getUserActivitiesData() {
+    public UserActivitiesData getUsersActivitiesData() {
+        userDataLogger.log(Level.INFO, "Getting users activities", userName);
         return userActivitiesData;
     }
 
-    public UserTransactionsData getUserTransactionsData() {
+    public UserTransactionsData getUsersTransactionsData() {
+        userDataLogger.log(Level.INFO, "Getting users transactions", userName);
         return userTransactionsData;
     }
 
