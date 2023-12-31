@@ -38,7 +38,7 @@ public class CollectDataForRegularUser implements CollectData {
             return userData;
         } catch (Exception e) {
             collectDataForRegularUserLogger.log(Level.SEVERE, "Unexpected error occurred while collecting data for regular user: {0}", new Object[]{userProfile.getUserName(), e});
-            throw new RuntimeException("Unexpected error occurred", e);
+            return null;
         }
     }
 }

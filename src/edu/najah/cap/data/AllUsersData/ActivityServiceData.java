@@ -24,11 +24,11 @@ public class ActivityServiceData {
             userActivitiesDataLogger.log(Level.INFO, "Fetching user activities for userId: {0}", userId);
             return userActivityService.getUserActivity(userId);
         } catch (SystemBusyException | BadRequestException | NotFoundException e) {
-            userActivitiesDataLogger.log(Level.WARNING, "Error fetching user activities for userId: {0}", new Object[]{userId, e});
-            throw e;
+            userActivitiesDataLogger.log(Level.SEVERE, "Error fetching user activities for userId: {0}", new Object[]{userId, e});
+            return null;
         } catch (Exception e) {
             userActivitiesDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching user activities for userId: {0}", new Object[]{userId, e});
-            throw new RuntimeException("Unexpected error occurred", e);
+            return null;
         }
     }
 }

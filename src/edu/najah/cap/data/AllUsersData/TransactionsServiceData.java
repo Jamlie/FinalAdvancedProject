@@ -22,21 +22,16 @@ public class TransactionsServiceData {
            userTransactionsDataLogger.log(Level.INFO, "Fetching transactions for userName: {0}", userName);
            return paymentService.getTransactions(userName);
        }catch (SystemBusyException | BadRequestException | NotFoundException e) {
-           userTransactionsDataLogger.log(Level.WARNING, "Error fetching transactions for userName: {0}", new Object[]{userName, e});
-           throw e;
+           userTransactionsDataLogger.log(Level.SEVERE, "Error fetching transactions for userName: {0}", new Object[]{userName, e});
+           return null;
        } catch (Exception e) {
            userTransactionsDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching transactions for userName: {0}", new Object[]{userName, e});
-           throw new RuntimeException("Unexpected error occurred", e);
+          return null;
        }
     }
 
     public double getBalance(String userName){
-        try {
-            userTransactionsDataLogger.log(Level.INFO, "Fetching balance for userName: {0}", userName);
-            return paymentService.getBalance(userName);
-        } catch (Exception e) {
-            userTransactionsDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching balance for userName: {0}", new Object[]{userName, e});
-            throw new RuntimeException("Unexpected error occurred", e);
-        }
+        userTransactionsDataLogger.log(Level.INFO, "Fetching balance for userName: {0}", userName);
+        return paymentService.getBalance(userName);
     }
 }

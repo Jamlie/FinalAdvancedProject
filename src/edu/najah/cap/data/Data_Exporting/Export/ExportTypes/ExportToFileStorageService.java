@@ -1,8 +1,11 @@
 package edu.najah.cap.data.Data_Exporting.Export.ExportTypes;
 
 import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectData;
-import edu.najah.cap.data.Data_Exporting.DataCollection.CollectDataForFactory;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForFactory;
+import edu.najah.cap.data.Data_Exporting.Export.FileStorageServices.FileStorageService;
+import edu.najah.cap.data.Data_Exporting.Export.FileStorageServices.FileStorageServiceFactory;
 
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,12 +22,16 @@ public class ExportToFileStorageService implements Export {
         try {
             CollectData collectData = collectDataForFactory.getCollectionDataFor();
 
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter file storage service name you want to upload file to: ");
+            System.out.println("Chose between Drive or Dropbox");
+            String fileStorageServiceType = scanner.nextLine();
 
-            System.out.println(collectData);
-            System.out.println(collectData.collect().getUserProfile().getUserName() + " Storage Service");
+            FileStorageService fileStorageService = new FileStorageServiceFactory(fileStorageServiceType).getFileStorageService();
+
+
         } catch (Exception e) {
             exportToFileStorageServiceLogger.log(Level.SEVERE, "An unexpected error occurred during export", e);
-            throw e;
         }
     }
 }

@@ -20,11 +20,11 @@ public class ProfileServiceData {
             userProfileDataLogger.log(Level.INFO, "Fetching user profile for userName: {0}", userName);
             return userService.getUser(userName);
         } catch (SystemBusyException | BadRequestException | NotFoundException e) {
-            userProfileDataLogger.log(Level.WARNING, "Error fetching user profile for userName: {0}", new Object[]{userName, e});
-            throw e;
+            userProfileDataLogger.log(Level.SEVERE, "Error fetching user profile for userName: {0}", new Object[]{userName, e});
+            return null;
         } catch (Exception e) {
             userProfileDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching user profile for userName: {0}", new Object[]{userName, e});
-            throw new RuntimeException("Unexpected error occurred", e);
+            return null;
         }
     }
 }

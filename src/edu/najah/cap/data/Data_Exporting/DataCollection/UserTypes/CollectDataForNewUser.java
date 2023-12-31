@@ -24,8 +24,9 @@ public class CollectDataForNewUser implements CollectData {
         try {
         collectDataForNewUserLogger.log(Level.INFO, "Collecting data for new user: {0}", userProfile.getUserName());
         return userData;
-    } catch (Exception e) {
-        collectDataForNewUserLogger.log(Level.SEVERE, "Unexpected error occurred while collecting data for user: {0}", new Object[]{userProfile.getUserName(), e});
-        throw new RuntimeException("Unexpected error occurred", e);
-    } }
+        } catch (Exception e) {
+            collectDataForNewUserLogger.log(Level.SEVERE, "Unexpected error occurred while collecting data for user: {0}", new Object[]{userProfile.getUserName(), e});
+            return null;
+        }
+    }
 }

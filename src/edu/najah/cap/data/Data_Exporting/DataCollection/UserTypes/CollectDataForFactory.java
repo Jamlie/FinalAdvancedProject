@@ -1,9 +1,7 @@
-package edu.najah.cap.data.Data_Exporting.DataCollection;
+package edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes;
 
-import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectData;
-import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForNewUser;
-import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForPremiumUser;
-import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForRegularUser;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UserData;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UsersData;
 import edu.najah.cap.exceptions.BadRequestException;
 import edu.najah.cap.exceptions.NotFoundException;
 import edu.najah.cap.exceptions.SystemBusyException;
@@ -60,12 +58,12 @@ public class CollectDataForFactory {
                     default -> throw new IllegalArgumentException("Invalid user type");
                 };
             } catch (SystemBusyException | NotFoundException | BadRequestException e) {
-                collectDataForFactoryLogger.log(Level.WARNING, "Error occurred while getting user data for user: {0}", new Object[]{userName, e});
+                collectDataForFactoryLogger.log(Level.SEVERE, "Warning occurred while getting user data for user: {0}", new Object[]{userName, e});
                 throw new RuntimeException(e);
             }
         } catch (NullPointerException e) {
-            collectDataForFactoryLogger.log(Level.SEVERE, "UserContext or UserProfile cannot be null for user: {0}", userName);
-            throw new IllegalArgumentException("UserContext or UserProfile cannot be null");
+            collectDataForFactoryLogger.log(Level.SEVERE, "UserContext or UserProfile cannot be null for user: {0}", new Object[]{userName, e});
+            return null;
         }
     }
 }

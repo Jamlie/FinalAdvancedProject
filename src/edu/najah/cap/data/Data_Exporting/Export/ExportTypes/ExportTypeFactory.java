@@ -1,16 +1,12 @@
-package edu.najah.cap.data.Data_Exporting.Export;
+package edu.najah.cap.data.Data_Exporting.Export.ExportTypes;
 
-import edu.najah.cap.data.Data_Exporting.DataCollection.CollectDataForFactory;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.DirectExport;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.Export;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.ExportToFileStorageService;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.ExportType;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForFactory;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExportTypeFactory {
     private static final Logger logger = Logger.getLogger(ExportTypeFactory.class.getName());
-
     private final ExportType exportType;
     private final CollectDataForFactory collectDataForFactory;
 
@@ -29,8 +25,8 @@ public class ExportTypeFactory {
             logger.log(Level.INFO, "ExportType created successfully: {0}", exportType);
             return export;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "An unexpected error occurred during export type creation", e);
-            throw e;
+            logger.log(Level.SEVERE, "An unexpected error occurred during export type creation", new Object[]{exportType, e});
+            return null;
         }
     }
 }

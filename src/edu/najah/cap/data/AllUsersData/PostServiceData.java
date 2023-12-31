@@ -22,11 +22,11 @@ public class PostServiceData {
             userPostsDataLogger.log(Level.INFO, "Fetching posts for userName: {0}", userName);
             return postService.getPosts(userName);
         } catch (SystemBusyException | BadRequestException | NotFoundException e) {
-            userPostsDataLogger.log(Level.WARNING, "Error fetching posts for userName: {0}", new Object[]{userName, e});
-            throw e;
+            userPostsDataLogger.log(Level.SEVERE, "Error fetching posts for userName: {0}", new Object[]{userName, e});
+            return null;
         } catch (Exception e) {
             userPostsDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching posts for userName: {0}", new Object[]{userName, e});
-            throw new RuntimeException("Unexpected error occurred", e);
+            return null;
         }
     }
 
