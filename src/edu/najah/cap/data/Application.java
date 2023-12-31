@@ -5,6 +5,12 @@ import edu.najah.cap.ExportData.ZipCreator;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
+
+import edu.najah.cap.delete_feature.DatabaseType;
+import edu.najah.cap.delete_feature.Delete;
+import edu.najah.cap.delete_feature.HardDelete;
+import edu.najah.cap.delete_feature.SoftDelete;
+
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -40,10 +46,74 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
+        System.out.print("Do you want to delete your account? (y/n): ");
+        String delete = scanner.nextLine();
+        if (delete.equals("y")) {
+            System.out.print("Do you want to soft delete your account? (y/n): ");
+            String softDelete = scanner.nextLine();
+            if (softDelete.equals("y")) {
+                Delete soft = new SoftDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
+
+                soft.delete(getLoginUserName());
+            } else {
+                Delete hard = new HardDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
+
+                hard.delete(getLoginUserName());
+            }
+        }
+
+        System.out.println("Enter your Export Data Type: ");
+        System.out.println("Note: Chose between Direct or Storage Service");
+        String exportType = scanner.nextLine();
+
+
+        try {
+            Export export = new ExportTypeFactory(
+                    (exportType.equals("Direct")) ? ExportType.Direct : ExportType.ToFileStorageService
+                    ,new CollectDataForFactory(new UsersData.Builder()
+                    .setUserName(getLoginUserName())
+                    .setUsersProfileData(profileServiceData)
+                    .setUsersPostsData(postServiceData)
+                    .setUsersActivitiesData(activityServiceData)
+                    .setUsersTransactionsData(transactionsServiceData)
+                    .build()))
+                    .getExportType();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
 
 
+
+
+        /*CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
+                .setUserName(getLoginUserName())
+                .setUsersProfileData(profileServiceData)
+                .setUsersPostsData(postServiceData)
+                .setUsersActivitiesData(activityServiceData)
+                .setUsersTransactionsData(transactionsServiceData)
+                .build());
+
+
+        CollectData collectData;
+        collectData = collectDataForFactory.getCollectionDataFor();
+
+        System.out.println(collectData);
+        System.out.println(collectData.collect().getUserProfile().getUserName());*/
 
         //TODO Your application ends here. Do not Change the existing code
         Instant end = Instant.now();
@@ -61,18 +131,18 @@ public class Application {
         System.out.println("Data Generation Completed");
     }
 
-		private static void generateActivity(int i) {
-				for (int j = 0; j < 100; j++) {
-						try {
-								if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
-										continue;
-								}
-						} catch (Exception e) {
-								System.err.println("Error while generating activity for user" + i);
-						}
-						userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
-				}
-		}
+    private static void generateActivity(int i) {
+        for (int j = 0; j < 100; j++) {
+            try {
+                if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
+                    continue;
+                }
+            } catch (Exception e) {
+                System.err.println("Error while generating activity for user" + i);
+            }
+            userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
+        }
+    }
 
     private static void generatePayment(int i) {
         for (int j = 0; j < 100; j++) {
