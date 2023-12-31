@@ -3,15 +3,12 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
-import edu.najah.cap.data.AllUsersData.ActivityServiceData;
-import edu.najah.cap.data.AllUsersData.PostServiceData;
-import edu.najah.cap.data.AllUsersData.ProfileServiceData;
-import edu.najah.cap.data.AllUsersData.TransactionsServiceData;
-import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForFactory;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.Export;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.ExportType;
-import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.ExportTypeFactory;
-import edu.najah.cap.data.Data_Exporting.DataCollection.UsersData;
+
+import edu.najah.cap.delete_feature.DatabaseType;
+import edu.najah.cap.delete_feature.Delete;
+import edu.najah.cap.delete_feature.HardDelete;
+import edu.najah.cap.delete_feature.SoftDelete;
+
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -47,11 +44,33 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
-        ActivityServiceData activityServiceData =new ActivityServiceData(userActivityService);
-        PostServiceData postServiceData = new PostServiceData(postService);
-        TransactionsServiceData transactionsServiceData = new TransactionsServiceData(paymentService);
-        ProfileServiceData profileServiceData = new ProfileServiceData(userService);
+        System.out.print("Do you want to delete your account? (y/n): ");
+        String delete = scanner.nextLine();
+        if (delete.equals("y")) {
+            System.out.print("Do you want to soft delete your account? (y/n): ");
+            String softDelete = scanner.nextLine();
+            if (softDelete.equals("y")) {
+                Delete soft = new SoftDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
 
+                soft.delete(getLoginUserName());
+            } else {
+                Delete hard = new HardDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
+
+                hard.delete(getLoginUserName());
+            }
+        }
 
         System.out.println("Enter your Export Data Type: ");
         System.out.println("Note: Chose between Direct or Storage Service");
@@ -109,18 +128,18 @@ public class Application {
         System.out.println("Data Generation Completed");
     }
 
-		private static void generateActivity(int i) {
-				for (int j = 0; j < 100; j++) {
-						try {
-								if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
-										continue;
-								}
-						} catch (Exception e) {
-								System.err.println("Error while generating activity for user" + i);
-						}
-						userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
-				}
-		}
+    private static void generateActivity(int i) {
+        for (int j = 0; j < 100; j++) {
+            try {
+                if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
+                    continue;
+                }
+            } catch (Exception e) {
+                System.err.println("Error while generating activity for user" + i);
+            }
+            userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
+        }
+    }
 
     private static void generatePayment(int i) {
         for (int j = 0; j < 100; j++) {
