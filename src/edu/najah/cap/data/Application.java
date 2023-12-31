@@ -1,11 +1,10 @@
 package edu.najah.cap.data;
 
+import edu.najah.cap.ExportData.PDFCreator;
+import edu.najah.cap.ExportData.ZipCreator;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
-import edu.najah.cap.exceptions.BadRequestException;
-import edu.najah.cap.exceptions.NotFoundException;
-import edu.najah.cap.exceptions.SystemBusyException;
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -40,8 +39,6 @@ public class Application {
         String userName = scanner.nextLine();
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
-
-
 
 
 
