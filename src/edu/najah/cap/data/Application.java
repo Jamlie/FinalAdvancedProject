@@ -3,10 +3,12 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
+
 import edu.najah.cap.delete_feature.DatabaseType;
 import edu.najah.cap.delete_feature.Delete;
 import edu.najah.cap.delete_feature.HardDelete;
 import edu.najah.cap.delete_feature.SoftDelete;
+
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -70,10 +72,45 @@ public class Application {
             }
         }
 
+        System.out.println("Enter your Export Data Type: ");
+        System.out.println("Note: Chose between Direct or Storage Service");
+        String exportType = scanner.nextLine();
+
+
+        try {
+            Export export = new ExportTypeFactory(
+                    (exportType.equals("Direct")) ? ExportType.Direct : ExportType.ToFileStorageService
+                    ,new CollectDataForFactory(new UsersData.Builder()
+                    .setUserName(getLoginUserName())
+                    .setUsersProfileData(profileServiceData)
+                    .setUsersPostsData(postServiceData)
+                    .setUsersActivitiesData(activityServiceData)
+                    .setUsersTransactionsData(transactionsServiceData)
+                    .build()))
+                    .getExportType();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
 
 
+
+
+        /*CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
+                .setUserName(getLoginUserName())
+                .setUsersProfileData(profileServiceData)
+                .setUsersPostsData(postServiceData)
+                .setUsersActivitiesData(activityServiceData)
+                .setUsersTransactionsData(transactionsServiceData)
+                .build());
+
+        CollectData collectData;
+        collectData = collectDataForFactory.getCollectionDataFor();
+
+        System.out.println(collectData);
+        System.out.println(collectData.collect().getUserProfile().getUserName());*/
 
         //TODO Your application ends here. Do not Change the existing code
         Instant end = Instant.now();
