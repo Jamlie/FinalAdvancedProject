@@ -3,12 +3,14 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
-import edu.najah.cap.dataCollection.CollectData;
 import edu.najah.cap.dataCollection.Data.ActivityServiceData;
 import edu.najah.cap.dataCollection.Data.PostServiceData;
 import edu.najah.cap.dataCollection.Data.ProfileServiceData;
 import edu.najah.cap.dataCollection.Data.TransactionsServiceData;
 import edu.najah.cap.dataCollection.CollectDataForFactory;
+import edu.najah.cap.dataCollection.Export.ExportTypes.Export;
+import edu.najah.cap.dataCollection.Export.ExportTypes.ExportType;
+import edu.najah.cap.dataCollection.Export.ExportTypeFactory;
 import edu.najah.cap.dataCollection.UsersData;
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
@@ -50,7 +52,34 @@ public class Application {
         TransactionsServiceData transactionsServiceData = new TransactionsServiceData(paymentService);
         ProfileServiceData profileServiceData = new ProfileServiceData(userService);
 
-        CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
+
+        Scanner exportTypeScanner = new Scanner(System.in);
+        System.out.println("Enter your Export Data Type: ");
+        System.out.println("Note: Chose between Direct or Storage Service");
+        String exportType = scanner.nextLine();
+
+
+        try {
+            Export export = new ExportTypeFactory(
+                    (exportType.equals("Direct")) ? ExportType.Direct : ExportType.ToFileStorageService
+                    ,new CollectDataForFactory(new UsersData.Builder()
+                    .setUserName(getLoginUserName())
+                    .setUsersProfileData(profileServiceData)
+                    .setUsersPostsData(postServiceData)
+                    .setUsersActivitiesData(activityServiceData)
+                    .setUsersTransactionsData(transactionsServiceData)
+                    .build()))
+                    .getExportType();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+
+        /*CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
                 .setUserName(getLoginUserName())
                 .setUsersProfileData(profileServiceData)
                 .setUsersPostsData(postServiceData)
@@ -62,7 +91,7 @@ public class Application {
         collectData = collectDataForFactory.getCollectionDataFor();
 
         System.out.println(collectData);
-        System.out.println(collectData.collect().getUserProfile().getUserName());
+        System.out.println(collectData.collect().getUserProfile().getUserName());*/
 
         //TODO Your application ends here. Do not Change the existing code
         Instant end = Instant.now();
