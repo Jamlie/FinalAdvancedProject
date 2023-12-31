@@ -1,6 +1,6 @@
-package edu.najah.cap.delete.internal.database;
+package edu.najah.cap.delete_feature.internal.database;
 
-import edu.najah.cap.delete.DatabaseType;
+import edu.najah.cap.delete_feature.DatabaseType;
 
 import java.sql.Connection;
 

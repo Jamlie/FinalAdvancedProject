@@ -3,13 +3,10 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
-import edu.najah.cap.delete.DatabaseType;
-import edu.najah.cap.delete.Delete;
-import edu.najah.cap.delete.HardDelete;
-import edu.najah.cap.delete.SoftDelete;
-import edu.najah.cap.exceptions.BadRequestException;
-import edu.najah.cap.exceptions.NotFoundException;
-import edu.najah.cap.exceptions.SystemBusyException;
+import edu.najah.cap.delete_feature.DatabaseType;
+import edu.najah.cap.delete_feature.Delete;
+import edu.najah.cap.delete_feature.HardDelete;
+import edu.najah.cap.delete_feature.SoftDelete;
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -48,18 +45,30 @@ public class Application {
         System.out.print("Do you want to delete your account? (y/n): ");
         String delete = scanner.nextLine();
         if (delete.equals("y")) {
+            System.out.print("Do you want to soft delete your account? (y/n): ");
+            String softDelete = scanner.nextLine();
+            if (softDelete.equals("y")) {
+                Delete soft = new SoftDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
 
+                soft.delete(getLoginUserName());
+            } else {
+                Delete hard = new HardDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
+
+                hard.delete(getLoginUserName());
+            }
         }
-        Delete softDelete = new SoftDelete.Builder()
-                .setPaymentService(paymentService)
-                .setPostService(postService)
-                .setUserService(userService)
-                .setUserActivityService(userActivityService)
-                .setDatabaseType(DatabaseType.SQLITE)
-                .build();
-
-        softDelete.delete(getLoginUserName());
-
 
 
 

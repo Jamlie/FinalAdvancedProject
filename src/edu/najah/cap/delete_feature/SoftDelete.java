@@ -1,7 +1,7 @@
-package edu.najah.cap.delete;
+package edu.najah.cap.delete_feature;
 
 import edu.najah.cap.activity.IUserActivityService;
-import edu.najah.cap.delete.internal.database.*;
+import edu.najah.cap.delete_feature.internal.database.*;
 import edu.najah.cap.exceptions.BadRequestException;
 import edu.najah.cap.exceptions.NotFoundException;
 import edu.najah.cap.exceptions.SystemBusyException;

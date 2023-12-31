@@ -1,18 +1,21 @@
-package edu.najah.cap.delete.internal.database;
+package edu.najah.cap.delete_feature.internal.database;
 
-import edu.najah.cap.delete.DatabaseType;
-import edu.najah.cap.delete.SQLValidation;
+import edu.najah.cap.delete_feature.DatabaseType;
+import edu.najah.cap.delete_feature.SQLValidation;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
     private static SoftDeletedUsersDatabase instance;
     private Connection connection;
     private final String dbName;
-    private boolean isConnected = false;
+    private boolean connected = false;
     private final DatabaseType databaseType;
+    private static final Logger logger = Logger.getLogger(SoftDeletedUsersDatabase.class.getName());
 
     private SoftDeletedUsersDatabase(DatabaseType databaseType, String dbName) {
         this.databaseType = databaseType;
@@ -24,6 +27,7 @@ public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
             synchronized (HardDeletedUsersDatabase.class) {
                 if (instance == null) {
                     instance = new SoftDeletedUsersDatabase(type, dbName);
+                    logger.log(Level.INFO, "SoftDeletedUsersDatabase instance created");
                 }
             }
         }
@@ -31,26 +35,31 @@ public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
     }
 
     @Override
-    public void connect() throws SQLException {
-        if (!isConnected) {
-            connection = this.connect(dbName);
-            if (Objects.isNull(connection)) {
-                throw new SQLException("Connection is null");
-            }
-            isConnected = true;
-            var err = createTable();
-            if (Objects.nonNull(err)) {
-                throw err;
-            }
-        }
+    protected boolean isConnected() {
+        return connected;
     }
 
-    private Connection connect(String dbName) {
-        return DatabaseConnection.getConnection(databaseType, dbName);
+    protected void setConnected(boolean connected) {
+        this.connected = connected;
     }
 
     @Override
-    protected SQLException createTable() throws SQLException {
+    protected Connection getConnection() {
+        return this.connection;
+    }
+
+    @Override
+    protected void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void connect() throws SQLException {
+        connect(databaseType, dbName, logger);
+    }
+
+    @Override
+    protected SQLException createTable() {
         try {
             connection
                     .createStatement()
@@ -59,17 +68,20 @@ public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
                             "email TEXT UNIQUE NOT NULL," +
                             "password TEXT NOT NULL" +
                             ");");
+            logger.log(Level.INFO, "Table soft_deleted_users created");
             return null;
         } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error creating table soft_deleted_users: {0}", e);
             return e;
         }
     }
 
     @Override
     public void disconnect() throws SQLException {
-        if (isConnected) {
+        if (isConnected()) {
             connection.close();
-            isConnected = false;
+            logger.log(Level.INFO, "Disconnected from database {0}", dbName);
+            connected = false;
         }
     }
 
@@ -77,7 +89,8 @@ public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
     public void insert(SoftDeletedUsersModel model) throws SQLException {
         boolean isUsernameValid = SQLValidation.isStringValid(model.username());
         if (!isUsernameValid) {
-            throw new SQLException("Username is not valid");
+            logger.log(Level.WARNING, "Username is not valid");
+            return;
         }
 
         try {
@@ -88,8 +101,9 @@ public class SoftDeletedUsersDatabase extends Database<SoftDeletedUsersModel> {
                             "'" + model.email() + "'," +
                             "'" + model.password() + "'" +
                             ");");
+            logger.log(Level.INFO, "Inserted user {0} into soft_deleted_users", model.username());
         } catch (SQLException e) {
-            throw e;
+            logger.log(Level.SEVERE, "Error inserting user {0} into soft_deleted_users: {1}", new Object[]{model.username(), e});
         }
     }
 }

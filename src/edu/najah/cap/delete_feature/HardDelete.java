@@ -1,15 +1,17 @@
-package edu.najah.cap.delete;
+package edu.najah.cap.delete_feature;
 
 import edu.najah.cap.activity.IUserActivityService;
-import edu.najah.cap.delete.internal.database.Database;
-import edu.najah.cap.delete.internal.database.HardDeletedUsersDatabase;
-import edu.najah.cap.delete.internal.database.HardDeletedUsersModel;
+import edu.najah.cap.delete_feature.internal.database.Database;
+import edu.najah.cap.delete_feature.internal.database.HardDeletedUsersDatabase;
+import edu.najah.cap.delete_feature.internal.database.HardDeletedUsersModel;
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.payment.IPayment;
 import edu.najah.cap.posts.IPostService;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HardDelete extends Delete {
     private IUserActivityService userActivityService;
@@ -18,6 +20,7 @@ public class HardDelete extends Delete {
     private IPayment paymentService;
     private Database<HardDeletedUsersModel> deletedUsersDatabase;
     private String dbName = "deleted_users.db";
+    private static final Logger logger = Logger.getLogger(HardDelete.class.getName());
 
     private HardDelete(IUserActivityService userActivityService, IUserService userService, IPostService postService, IPayment paymentService, DatabaseType type) {
         this.userActivityService = userActivityService;
@@ -74,12 +77,15 @@ public class HardDelete extends Delete {
         try {
             deletedUsersDatabase.connect();
             deletedUsersDatabase.insert(new HardDeletedUsersModel(username));
+            logger.log(Level.INFO, "User {0} deleted successfully", username);
         } catch (SQLException sqle) {
+            logger.log(Level.SEVERE, "Error while inserting into database", sqle);
             throw new RuntimeException(sqle);
         } finally {
             try {
                 deletedUsersDatabase.disconnect();
             } catch (SQLException sqle) {
+                logger.log(Level.SEVERE, "Error while disconnecting from database", sqle);
                 throw new RuntimeException(sqle);
             }
         }

@@ -1,4 +1,4 @@
-package edu.najah.cap.delete;
+package edu.najah.cap.delete_feature;
 
 public class SQLValidation {
     private SQLValidation() {}
