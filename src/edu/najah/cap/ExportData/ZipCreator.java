@@ -10,12 +10,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipCreator {
-    public static void createZipFolder(String... fileNames) {
+    public static void createZipFolder(String folderName , String... fileNames) {
         try {
             byte[] buffer = new byte[1024];
             String homeDirectory = System.getProperty("user.home");
             Path downloadPath = Paths.get(homeDirectory, "Downloads");
-            FileOutputStream fos = new FileOutputStream(downloadPath + "/pdfs.zip");
+            FileOutputStream fos = new FileOutputStream(downloadPath + "\\" + folderName + ".zip");
             ZipOutputStream zos = new ZipOutputStream(fos);
 
             for (String fileName : fileNames) {

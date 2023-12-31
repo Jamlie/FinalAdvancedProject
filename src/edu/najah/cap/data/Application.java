@@ -1,5 +1,6 @@
 package edu.najah.cap.data;
 
+import edu.najah.cap.ExportData.PDFCreator;
 import edu.najah.cap.ExportData.ZipCreator;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
@@ -39,8 +40,6 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
-
-        ZipCreator.createZipFolder("pdf.pdf");
 
 
 
