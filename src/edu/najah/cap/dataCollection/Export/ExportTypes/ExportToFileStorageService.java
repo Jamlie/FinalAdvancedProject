@@ -16,7 +16,6 @@ public class ExportToFileStorageService implements Export {
     @Override
     public void export() {
         try {
-            exportToFileStorageServiceLogger.log(Level.FINE, "Export To File Storage Service process started");
             CollectData collectData = collectDataForFactory.getCollectionDataFor();
 
             System.out.println(collectData);

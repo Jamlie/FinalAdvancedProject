@@ -11,12 +11,12 @@ public class DirectExport implements Export {
     private final CollectDataForFactory collectDataForFactory;
     public DirectExport(CollectDataForFactory collectDataForFactory) {
         this.collectDataForFactory = collectDataForFactory;
+        export();
     }
 
     @Override
     public void export(){
         try {
-            directExportLogger.log(Level.FINE, "Direct Export process started");
             CollectData collectData = collectDataForFactory.getCollectionDataFor();
 
             System.out.println(collectData);

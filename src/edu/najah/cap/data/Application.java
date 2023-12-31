@@ -53,7 +53,6 @@ public class Application {
         ProfileServiceData profileServiceData = new ProfileServiceData(userService);
 
 
-        Scanner exportTypeScanner = new Scanner(System.in);
         System.out.println("Enter your Export Data Type: ");
         System.out.println("Note: Chose between Direct or Storage Service");
         String exportType = scanner.nextLine();
@@ -70,6 +69,7 @@ public class Application {
                     .setUsersTransactionsData(transactionsServiceData)
                     .build()))
                     .getExportType();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
