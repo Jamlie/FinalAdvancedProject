@@ -1,9 +1,20 @@
 package edu.najah.cap.data;
 
+import edu.najah.cap.ExportData.PDFCreator;
+import edu.najah.cap.ExportData.ZipCreator;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
 
+import edu.najah.cap.data.AllUsersData.ActivityServiceData;
+import edu.najah.cap.data.AllUsersData.PostServiceData;
+import edu.najah.cap.data.AllUsersData.ProfileServiceData;
+import edu.najah.cap.data.AllUsersData.TransactionsServiceData;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForFactory;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UsersData;
+import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.Export;
+import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.ExportType;
+import edu.najah.cap.data.Data_Exporting.Export.ExportTypes.ExportTypeFactory;
 import edu.najah.cap.delete_feature.DatabaseType;
 import edu.najah.cap.delete_feature.Delete;
 import edu.najah.cap.delete_feature.HardDelete;
@@ -44,6 +55,11 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
+        ActivityServiceData activityServiceData =new ActivityServiceData(userActivityService);
+        PostServiceData postServiceData = new PostServiceData(postService);
+        TransactionsServiceData transactionsServiceData = new TransactionsServiceData(paymentService);
+        ProfileServiceData profileServiceData = new ProfileServiceData(userService);
+
         System.out.print("Do you want to delete your account? (y/n): ");
         String delete = scanner.nextLine();
         if (delete.equals("y")) {
@@ -79,8 +95,8 @@ public class Application {
 
         try {
             Export export = new ExportTypeFactory(
-                    (exportType.equals("Direct")) ? ExportType.Direct : ExportType.ToFileStorageService
-                    ,new CollectDataForFactory(new UsersData.Builder()
+                    (exportType.equals("Direct")) ? ExportType.Direct : ExportType.ToFileStorageService,
+                    new CollectDataForFactory(new UsersData.Builder()
                     .setUserName(getLoginUserName())
                     .setUsersProfileData(profileServiceData)
                     .setUsersPostsData(postServiceData)
@@ -96,21 +112,6 @@ public class Application {
 
 
 
-
-
-        /*CollectDataForFactory collectDataForFactory = new CollectDataForFactory(new UsersData.Builder()
-                .setUserName(getLoginUserName())
-                .setUsersProfileData(profileServiceData)
-                .setUsersPostsData(postServiceData)
-                .setUsersActivitiesData(activityServiceData)
-                .setUsersTransactionsData(transactionsServiceData)
-                .build());
-
-        CollectData collectData;
-        collectData = collectDataForFactory.getCollectionDataFor();
-
-        System.out.println(collectData);
-        System.out.println(collectData.collect().getUserProfile().getUserName());*/
 
         //TODO Your application ends here. Do not Change the existing code
         Instant end = Instant.now();
