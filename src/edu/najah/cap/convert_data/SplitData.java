@@ -1,7 +1,7 @@
 package edu.najah.cap.convert_data;
 
 import edu.najah.cap.activity.UserActivity;
-import edu.najah.cap.data.Data_Exporting.DataCollection.UserData;
+import edu.najah.cap.data.data_exporting.data_collection.UserData;
 import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;
 import java.util.ArrayList;
