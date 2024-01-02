@@ -13,7 +13,7 @@ This Package has four classes ```ActivityServiceData```, ```PostServiceData```, 
 - ```ProfileServiceData``` in its constructor takes a IUserService object and in its getUserProfile method return a UserProfile object.
 - ```TransactionsServiceData``` in its constructor takes a IPayment object and in its getUserTransactions method return a List<Transaction> also getBalance method return a double object.
 
-### Data_Exporting Package 
+### data_exporting Package 
 #### DataCollection 
 This package continues ```UsersData``` , ```UserData``` and ```user_types```package:
 - ```UsersData``` class that takes ProfileServiceData, PostServiceData, ActivityServiceData, TransactionsServiceData and String and implements it using buillder design pattern.
@@ -26,7 +26,7 @@ This package continues ```UsersData``` , ```UserData``` and ```user_types```pack
   - ```CollectDataForPremiumUser``` a class implements CollectData and contain needed information for Premium user, UserData     object and overrided collect method.
   -  ```CollectDataForFactory```  a class implemented to verifi __factory design pattern__ this class get a UserData object      and it has a ```getCollectionDataFor``` method that returns a CollectData object based on __user type__ with it could be       (```CollectDataForNewUser```, ```CollectDataForRegularUser```, ```CollectDataForPremiumUser```).
   
-### Export
+### export Package
 #### export_types 
 This package contains:
 - ```Export``` a interface contains a export method. 
