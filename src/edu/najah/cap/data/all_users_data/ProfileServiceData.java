@@ -21,10 +21,10 @@ public class ProfileServiceData {
             return userService.getUser(userName);
         } catch (SystemBusyException | BadRequestException | NotFoundException e) {
             userProfileDataLogger.log(Level.SEVERE, "Error fetching user profile for userName: {0}", new Object[]{userName, e});
-            return null;
+            throw e;
         } catch (Exception e) {
             userProfileDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching user profile for userName: {0}", new Object[]{userName, e});
-            return null;
+            throw e;
         }
     }
 }

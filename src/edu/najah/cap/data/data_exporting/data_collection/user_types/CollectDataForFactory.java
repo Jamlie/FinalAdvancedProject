@@ -30,6 +30,8 @@ public class CollectDataForFactory {
                                 .build());
 
                         collectDataForFactoryLogger.log(Level.INFO, "Creat CollectDataForRegularUser instance for user: {0}", userName);
+
+
                         yield collectDataForRegularUser;
                     }
 
@@ -43,6 +45,7 @@ public class CollectDataForFactory {
                                 .build());
 
                         collectDataForFactoryLogger.log(Level.INFO, "Create CollectDataForPremiumUser instance for user: {0}", userName);
+
                         yield collectDataForPremiumUser;
                     }
 
@@ -63,7 +66,7 @@ public class CollectDataForFactory {
             }
         } catch (NullPointerException e) {
             collectDataForFactoryLogger.log(Level.SEVERE, "UserContext or UserProfile cannot be null for user: {0}", new Object[]{userName, e});
-            return null;
+            throw e;
         }
     }
 }
