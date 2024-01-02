@@ -23,10 +23,10 @@ public class TransactionsServiceData {
            return paymentService.getTransactions(userName);
        }catch (SystemBusyException | BadRequestException | NotFoundException e) {
            userTransactionsDataLogger.log(Level.SEVERE, "Error fetching transactions for userName: {0}", new Object[]{userName, e});
-           return null;
+           throw e;
        } catch (Exception e) {
            userTransactionsDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching transactions for userName: {0}", new Object[]{userName, e});
-          return null;
+          throw e;
        }
     }
 

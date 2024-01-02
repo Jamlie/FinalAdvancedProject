@@ -25,10 +25,10 @@ public class ActivityServiceData {
             return userActivityService.getUserActivity(userId);
         } catch (SystemBusyException | BadRequestException | NotFoundException e) {
             userActivitiesDataLogger.log(Level.SEVERE, "Error fetching user activities for userId: {0}", new Object[]{userId, e});
-            return null;
+            throw e;
         } catch (Exception e) {
             userActivitiesDataLogger.log(Level.SEVERE, "Unexpected error occurred while fetching user activities for userId: {0}", new Object[]{userId, e});
-            return null;
+            throw e;
         }
     }
 }
