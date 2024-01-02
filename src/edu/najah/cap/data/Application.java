@@ -1,7 +1,7 @@
 package edu.najah.cap.data;
 
-import edu.najah.cap.ExportData.PDFCreator;
-import edu.najah.cap.ExportData.ZipCreator;
+//import edu.najah.cap.export_data.PDFCreator;
+//import edu.najah.cap.export_data.ZipCreator;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
@@ -55,7 +55,7 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
-        ActivityServiceData activityServiceData =new ActivityServiceData(userActivityService);
+        ActivityServiceData activityServiceData = new ActivityServiceData(userActivityService);
         PostServiceData postServiceData = new PostServiceData(postService);
         TransactionsServiceData transactionsServiceData = new TransactionsServiceData(paymentService);
         ProfileServiceData profileServiceData = new ProfileServiceData(userService);
