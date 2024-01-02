@@ -1,20 +1,30 @@
-package edu.najah.cap.ExportData;
+package edu.najah.cap.convert_data;
 
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.data.Data_Exporting.DataCollection.UserData;
 import edu.najah.cap.payment.Transaction;
 import edu.najah.cap.posts.Post;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SplitData {
+
+    private static final Logger SplitDataLogger = Logger.getLogger(SplitData.class.getName());
     public List<List<String>> split(UserData userData) {
         List<List<String>> listOfData = new ArrayList<>();
-        listOfData.add(UserProfileData(userData));//1
-        listOfData.add(ListOfPosts(userData));//2
-        listOfData.add(ListOfActivities(userData));//3
-        listOfData.add(ListOfPayments(userData));//4
+        listOfData.add(UserProfileData(userData));
+
+        if(userData.getPosts() != null){
+            listOfData.add(ListOfPosts(userData));
+        }
+        if(userData.getUserActivities() != null){
+            listOfData.add(ListOfActivities(userData));
+        }
+        if(userData.getTransactions() != null) {
+            listOfData.add(ListOfPayments(userData));
+        }
 
         return listOfData;
     }
@@ -35,6 +45,7 @@ public class SplitData {
         userProfileData.add("Street = " + user.getStreet());
         userProfileData.add("Postal Code = " + user.getPostalCode());
         userProfileData.add("User Type = " + user.getUserType());
+        SplitDataLogger.log(Level.INFO, "User profile data extracted successfully");
         return userProfileData;
     }
     public List<String> ListOfPosts(UserData userData){
@@ -49,6 +60,8 @@ public class SplitData {
             listOfPosts.add("Author = " + post.getAuthor());
             listOfPosts.add("\n\n\n");
         }
+        SplitDataLogger.log(Level.INFO, "Post data extracted successfully");
+
         return listOfPosts;
     }
 
@@ -61,8 +74,9 @@ public class SplitData {
             listOfActivities.add("User ID = " + activity.getUserId());
             listOfActivities.add("Activity Type = " + activity.getActivityType());
             listOfActivities.add("Activity Date = " + activity.getActivityDate());
-            listOfActivities.add("\n\n\n"); 
+            listOfActivities.add("\n\n\n");
         }
+        SplitDataLogger.log(Level.INFO, "User activity data extracted successfully");
         return listOfActivities;
     }
     
@@ -78,6 +92,7 @@ public class SplitData {
             listOfPayments.add("Payment Amount = " + payment.getAmount());
             listOfPayments.add("\n\n\n");
         }
+        SplitDataLogger.log(Level.INFO, "Payment data extracted successfully");
         return listOfPayments;
     }
 }
