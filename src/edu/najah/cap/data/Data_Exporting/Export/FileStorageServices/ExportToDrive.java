@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExportToDrive implements FileStorageService{
-    private static final Logger ExportToDriveLogger = Logger.getLogger(DirectExport.class.getName());
+    private static final Logger exportToDriveLogger = Logger.getLogger(DirectExport.class.getName());
     public ExportToDrive() {
         exportToFileStorageService();
     }
@@ -14,11 +14,11 @@ public class ExportToDrive implements FileStorageService{
     @Override
     public void exportToFileStorageService() {
         try{
-            ExportToDriveLogger.log(Level.INFO, "File exporting to Drive storage file service.");
+            exportToDriveLogger.log(Level.INFO, "File exporting to Drive storage file service.");
             Thread.sleep(1000);
             System.out.println("ZIP File Exported to Drive file Storage Service successfully.");
         } catch (Exception e) {
-            ExportToDriveLogger.log(Level.SEVERE, "An unexpected error occurred during export", e);
+            exportToDriveLogger.log(Level.SEVERE, "An unexpected error occurred during export", e);
         }
     }
 }

@@ -1,7 +1,14 @@
 package edu.najah.cap.data.Data_Exporting.Export.ExportTypes;
 
+import edu.najah.cap.data.Data_Exporting.DataCollection.UserData;
 import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectData;
 import edu.najah.cap.data.Data_Exporting.DataCollection.UserTypes.CollectDataForFactory;
+import edu.najah.cap.data.Data_Exporting.DataCollection.UsersData;
+import edu.najah.cap.data.Data_Exporting.Export.ConvertData.Generate;
+import edu.najah.cap.data.Data_Exporting.Export.ConvertData.SplitData;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +26,9 @@ public class DirectExport implements Export {
         try {
             CollectData collectData = collectDataForFactory.getCollectionDataFor();
 
+            SplitData splitData = new SplitData();
+            Generate generate = new Generate(splitData.split(collectData.collect()));
 
-
-            System.out.println(collectData);
-            System.out.println(collectData.collect().getUserProfile().getUserName() + " Direct");
         } catch (Exception e) {
             directExportLogger.log(Level.SEVERE, "An unexpected error occurred during export", e);
         }

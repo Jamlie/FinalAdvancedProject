@@ -53,7 +53,7 @@ public class CollectDataForPremiumUser implements CollectData {
             return userData;
         } catch (Exception e) {
             collectDataForPremiumUserLogger.log(Level.SEVERE, "Unexpected error occurred while collecting data for premium user: {0}", new Object[]{userProfile.getUserName(), e});
-            return null;
+            throw e;
         }
     }
 }
