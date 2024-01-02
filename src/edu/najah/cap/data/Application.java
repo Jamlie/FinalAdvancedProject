@@ -1,7 +1,5 @@
 package edu.najah.cap.data;
 
-//import edu.najah.cap.export_data.PDFCreator;
-//import edu.najah.cap.export_data.ZipCreator;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
