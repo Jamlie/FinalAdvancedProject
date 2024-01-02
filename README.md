@@ -12,7 +12,7 @@ a package contains the process to convert data and direct export
 #### IFile interface
 This interface defines a contract for classes that handle file creation and deletion operations within the `edu.najah.cap.convert_data` package. It ensures consistency and modularity in file-related tasks.
 
-**## Methods**
+## **Methods**
 
 - **createFile(String filename, List<String> data):**
     - Creates a file with the specified filename.
@@ -22,12 +22,12 @@ This interface defines a contract for classes that handle file creation and dele
     - Deletes an existing file with the given filename.
     - Implementation details are left to concrete classes.
 
-**## Purpose**
+## **Purpose**
 - Promotes code reusability and maintainability by defining a common interface for file operations.
 - Allows different file-handling implementations to be swapped without affecting other parts of the code.
 - Facilitates testing by enabling mock file implementations for isolated testing.
 
-**## Usage**
+## **Usage**
 
 1. **Implement the interface:**
    ```
@@ -43,7 +43,7 @@ This interface defines a contract for classes that handle file creation and dele
    fileHandler.deleteFile("my_file");
    ```
 
-**## Benefits**
+## **Benefits**
 - **Decoupling:** Separates file operations from other logic for better organization and flexibility.
 - **Polymorphism:** Allows using different file handling implementations interchangeably.
 - **Testability:** Enables mocking for controlled testing scenarios.
@@ -92,12 +92,12 @@ Check log files for error messages or debugging information.
 ##### ZipCreator
 This class provides functionality to create zip archives containing multiple PDF files. It automatically saves generated zip files to the user's Downloads directory and logs file operations for debugging and tracking.
 
-**## Key Features**
+## **Key Features**
 - Creates zip archives with specified folder names and PDF files.
 - Locates PDF files in the user's Downloads directory.
 - Handles potential errors and logs them appropriately.
 
-**## Usage**
+## **Usage**
 
  **Import the class:**
    ```
@@ -111,29 +111,29 @@ This class provides functionality to create zip archives containing multiple PDF
    ZipCreator.createZipFolder("my_zip_archive", fileNames);
    ```
 
-**## Assumptions**
+## **Assumptions**
 
 - files to be added to the zip archive are located in the user's Downloads directory.
 - Files have a ".pdf" extension.
 
-**## Logging**
+## **Logging**
 
 - Uses a `Logger` named `ZipCreatorLogger` to log file operations.
 - Check log files for error messages or debugging information.
 
-**## Additional Notes**
+## **Additional Notes**
 - Saves zip archives to the user's Downloads directory by default.
 
 #### Generate class
 This class orchestrates the generation of multiple PDF files from provided data and then compresses them into a zip archive for convenient distribution. It leverages the `PDFCreator` and `ZipCreator` classes for file creation and archiving, respectively.
 
-**## Key Features**
+## **Key Features**
 - Generates multiple PDF files with specified names and content.
 - Combines generated PDFs into a zip archive named "UserData.zip".
 - Deletes individual PDF files after creating the zip archive.
 - Uses logging for tracking file operations and debugging.
 
-**## Usage**
+## **Usage**
 
 1. **Instantiate the class:**
 
@@ -144,28 +144,28 @@ This class orchestrates the generation of multiple PDF files from provided data 
 
 2. **The constructor handles file generation and zipping automatically.**
 
-**## Assumptions**
+## **Assumptions**
 - Input data is organized as lists of strings, where each list represents a separate PDF file.
 - PDFCreator and ZipCreator classes are accessible within the same package.
 
-**## Logging**
+## **Logging**
 - Uses a `Logger` named `generateLogger` to log file operations.
 - Check log files for error messages or debugging information.
 
-**## Additional Notes**
+## **Additional Notes**
 - Saves PDFs to the user's Downloads directory before zipping them.
 - Deletes PDFs after zipping to conserve space.
 
 #### SplitData 
 This class acts as a data organizer, extracting and structuring relevant information from a `UserData` object into separate lists for profile data, posts, activities, and payments. It prepares data for downstream processing and file generation.
 
-**## Key Features**
+## **Key Features**
 
 - Extracts user profile, posts, activities, and payment data into distinct lists.
 - Conditionally extracts data based on availability in the `UserData` object.
 - Logs extraction processes for debugging and tracking.
 
-**## Usage**
+## **Usage**
 1. **Instantiate the class:**
    ```
    SplitData splitter = new SplitData();
@@ -178,7 +178,7 @@ This class acts as a data organizer, extracting and structuring relevant informa
 
    - The `organizedData` will contain lists for profile, posts, activities, and/or payments, depending on available data.
 
-**## Methods**
+## **Methods**
 - **split(UserData userData):**
     - Extracts and organizes data into lists.
     - Returns a list of lists, where each inner list represents a data category.
@@ -191,11 +191,11 @@ This class acts as a data organizer, extracting and structuring relevant informa
 - **ListOfPayments(UserData userData):**
     - Extracts payment data into a list.
 
-**## Logging**
+## **Logging**
 - Uses a `Logger` named `SplitDataLogger` to log extraction processes.
 - Check log files for progress information or debugging.
 
-**## Additional Notes**
+## **Additional Notes**
 - Operates on the assumption that the `UserData` object contains valid data.
 - Consider adding error handling for unexpected data structures.
 - Designed to prepare data for subsequent file generation or other processing tasks.
