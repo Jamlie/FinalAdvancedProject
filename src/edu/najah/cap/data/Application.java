@@ -3,9 +3,21 @@ package edu.najah.cap.data;
 import edu.najah.cap.activity.IUserActivityService;
 import edu.najah.cap.activity.UserActivity;
 import edu.najah.cap.activity.UserActivityService;
-import edu.najah.cap.exceptions.BadRequestException;
-import edu.najah.cap.exceptions.NotFoundException;
-import edu.najah.cap.exceptions.SystemBusyException;
+
+import edu.najah.cap.data.all_users_data.ActivityServiceData;
+import edu.najah.cap.data.all_users_data.PostServiceData;
+import edu.najah.cap.data.all_users_data.ProfileServiceData;
+import edu.najah.cap.data.all_users_data.TransactionsServiceData;
+import edu.najah.cap.data.data_exporting.data_collection.user_types.CollectDataForFactory;
+import edu.najah.cap.data.data_exporting.data_collection.UsersData;
+import edu.najah.cap.data.data_exporting.export.export_types.Export;
+import edu.najah.cap.data.data_exporting.export.export_types.ExportType;
+import edu.najah.cap.data.data_exporting.export.export_types.ExportTypeFactory;
+import edu.najah.cap.data.delete_feature.DatabaseType;
+import edu.najah.cap.data.delete_feature.Delete;
+import edu.najah.cap.data.delete_feature.HardDelete;
+import edu.najah.cap.data.delete_feature.SoftDelete;
+
 import edu.najah.cap.iam.IUserService;
 import edu.najah.cap.iam.UserProfile;
 import edu.najah.cap.iam.UserService;
@@ -41,8 +53,59 @@ public class Application {
         setLoginUserName(userName);
         //TODO Your application starts here. Do not Change the existing code
 
+        ActivityServiceData activityServiceData = new ActivityServiceData(userActivityService);
+        PostServiceData postServiceData = new PostServiceData(postService);
+        TransactionsServiceData transactionsServiceData = new TransactionsServiceData(paymentService);
+        ProfileServiceData profileServiceData = new ProfileServiceData(userService);
+
+        System.out.print("Do you want to delete your account? (y/n): ");
+        String delete = scanner.nextLine();
+        if (delete.equals("y")) {
+            System.out.print("Do you want to soft delete your account? (y/n): ");
+            String softDelete = scanner.nextLine();
+            if (softDelete.equals("y")) {
+                Delete soft = new SoftDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
+
+                soft.delete(getLoginUserName());
+            } else {
+                Delete hard = new HardDelete.Builder()
+                        .setPaymentService(paymentService)
+                        .setPostService(postService)
+                        .setUserService(userService)
+                        .setUserActivityService(userActivityService)
+                        .setDatabaseType(DatabaseType.SQLITE)
+                        .build();
+
+                hard.delete(getLoginUserName());
+            }
+        }
+
+        System.out.println("Enter your Export Data Type: ");
+        System.out.println("Note: Chose between Direct or Storage Service");
+        String exportType = scanner.nextLine();
 
 
+        try {
+            Export export = new ExportTypeFactory(
+                    (exportType.equals("Direct")) ? ExportType.Direct : ExportType.ToFileStorageService,
+                    new CollectDataForFactory(new UsersData.Builder()
+                    .setUserName(getLoginUserName())
+                    .setUsersProfileData(profileServiceData)
+                    .setUsersPostsData(postServiceData)
+                    .setUsersActivitiesData(activityServiceData)
+                    .setUsersTransactionsData(transactionsServiceData)
+                    .build()))
+                    .getExportType();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
 
@@ -66,6 +129,13 @@ public class Application {
 
     private static void generateActivity(int i) {
         for (int j = 0; j < 100; j++) {
+            try {
+                if(UserType.NEW_USER.equals(userService.getUser("user" + i).getUserType())) {
+                    continue;
+                }
+            } catch (Exception e) {
+                System.err.println("Error while generating activity for user" + i);
+            }
             userActivityService.addUserActivity(new UserActivity("user" + i, "activity" + i + "." + j, Instant.now().toString()));
         }
     }
