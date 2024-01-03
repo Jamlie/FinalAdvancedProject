@@ -41,7 +41,7 @@ public class PDFCreator implements IFile {
     public void deleteFile(String filename){
         String homeDirectory = System.getProperty("user.home");
         Path downloadPath = Paths.get(homeDirectory, "Downloads");
-        String filePath =downloadPath + "\\" + filename + ".pdf";
+        String filePath = downloadPath.resolve(filename + ".pdf").toString();
         try {
             Files.delete(Path.of(filePath));
             PDFCreatorLogger.log(Level.INFO, "File deleted successfully: {0}", filePath);
